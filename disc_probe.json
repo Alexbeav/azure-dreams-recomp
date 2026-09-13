@@ -1,0 +1,31 @@
+{
+  "cue_path": "I:\\Projects\\PSX-Ports-pilot\\_disc\\azure-dreams\\disc.cue",
+  "cue_name": "disc.cue",
+  "bin_name": "disc.bin",
+  "track_count": 1,
+  "data_track_size": 298576992,
+  "data_track_md5": "9f0afe31a2993af90e43a5ff3139e331",
+  "data_track_sha1": "fab68454be5e4e48f7a43ac797cc8c47325c6a20",
+  "data_track_crc32": "7b0c5f60",
+  "boot_exe": "SLUS_006.14",
+  "serial": "SLUS-00614",
+  "serial_exe": "SLUS_006.14",
+  "volume_id": "KONAMI",
+  "display_name": "Azure Dreams",
+  "load_address": "0x8002D000",
+  "entry_pc": "0x80033930",
+  "text_size": "0x00054800",
+  "stack_base": "0x801FFFF0",
+  "require_cue": true,
+  "required_disc_fp": "f6cb0129b404c086abbb1be8bc7792bb8c43f5bdbf12bcaef0e04df3ac660013",
+  "boot_exe_sha256": "ae19d8d4bdd2db9a933b1e44d70dd61be670781e441d7cb37da85250a7aed31f",
+  "seed_count": 823,
+  "warnings": [
+    "cue has only 1 TRACK \u2014 Track-01-only dumps fail multi-track netplay/catalog gates; prefer a full Redump cue."
+  ],
+  "notes": [
+    "entry_pc/load_address/text_size/stack_base taken from PS-X EXE header.",
+    "seeds are first-pass boot-EXE JAL targets (+ entry); expect to grow as overlays / runtime paths are discovered.",
+    "required_disc_fp is psxrecomp-toc-v1 (matches runtime DiscIdentity)."
+  ]
+}
