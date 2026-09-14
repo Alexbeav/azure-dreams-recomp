@@ -50,14 +50,13 @@ BIOS/ROM/save plumbing so you are not stuck repeating each game’s wizard by ha
 ## Legal
 
 You must own the original game. Disc images under `disc/` are gitignored and
-must never be committed. Retail BIOS dumps are not redistributed; OpenBIOS is
-used for Generate unless you supply your own SCPH locally.
+must never be committed. Retail BIOS dumps are not redistributed and OpenBIOS is
+not shipped: this title is retail-BIOS-only, so first-run Generate needs your own
+legally dumped SCPH-1001 image.
 
 Default app icon: `assets/psxrecomp.ico` (and `.png` / `.svg`) — Retro-themed controller mark from `psxrecomp/assets/`. Windows builds embed it via `APP_ICON`.
 
-Optional box art under `launcher_assets/img/` may come from
-[libretro-thumbnails](https://github.com/libretro-thumbnails/libretro-thumbnails)
-(`Named_Boxarts`); see `BOXART_SOURCE.txt` when present.
+Box art is not shipped in this kit or its repository. Redistribution permission for third-party cover images is unresolved, so the launcher runs without one.
 
 ## Quick start (dev)
 

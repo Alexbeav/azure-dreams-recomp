@@ -50,7 +50,17 @@ PRIVATE_FIXTURE_ALLOWLIST = {
 # cannot hide a real developer path behind a broadly exempt documentation name.
 PRIVATE_FIXTURE_HASHES = {
     "psxrecomp/docs/GAME_PROJECT_SETUP.md": "FB2F038A484942CE0AC46B3471AE66F19CF2DBE1C8F24CEAC5285C888D5C2F78",
-    "psxrecomp/runtime/tests/test_setup_private_path_gate.py": "6F890A83A48726DF54B2459BD3BB706B575F819FAF9C768E30273B1F78912DA8",
+    # Re-bound for the accepted Wave 4 c2 pin (4f534f2cf). Framework commit
+    # 837b7a2f4 "Scope private path fixture exceptions" edited this file after
+    # the Wave 3 bytes were bound, so the Wave 3 hash no longer matched and the
+    # gate correctly reported a private developer path. The file remains a pure
+    # fixture: every match below is a synthetic input or a negative control the
+    # gate itself asserts must NOT be flagged.
+    # The literal example paths are deliberately not repeated here: this file
+    # ships inside release kits and would trip its own private-path gate.
+    # Binding the exact bytes keeps the exemption narrow: any later edit to this
+    # file fails the audit again.
+    "psxrecomp/runtime/tests/test_setup_private_path_gate.py": "BB0908B24B4457ABA6F29169E622E5E42505C2A7A9E521037A38D974ED4AFF8E",
 }
 
 
@@ -109,7 +119,19 @@ def audit_archive(path: Path, repo: str, expected: dict[str, str]) -> dict[str, 
                     allowed_private.append(name)
                 else:
                     private_paths.append(name)
-            if lower.endswith("/manifest.toml") and "/mods/packages/" in f"/{lower}":
+            # A public mod catalog is staged at one of the framework's canonical
+            # locations. Framework 4cc04be3 renamed the exe-side catalog from
+            # mods/packages to mods/bundled; an auditor pinned to the old
+            # spelling counted zero manifests for every kit built after that
+            # rename and rejected a complete catalog. Accept any manifest that
+            # sits under a mods/ tree in a catalog segment, so neither spelling
+            # nor location can silently zero the count. The count, the
+            # >= 1 requirement and the developer-channel rejection below are
+            # unchanged.
+            _catalog_parts = set(PurePosixPath(lower).parts)
+            if (lower.endswith("/manifest.toml")
+                    and "mods" in _catalog_parts
+                    and ({"bundled", "packages"} & _catalog_parts)):
                 mod_manifests += 1
                 if re.search(rb'^\s*channel\s*=\s*"developer"', data, re.M):
                     problems.append(f"developer-channel mod: {name}")

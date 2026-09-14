@@ -25,6 +25,23 @@ set(PSX_RECOMP_UI ON CACHE BOOL
 # endif()
 # First-run setup wizard -- enable after testing:
 # set(PSX_SETUP_WIZARD ON CACHE BOOL "..." FORCE)
+
+# --- Retail-BIOS-only BIOS stems -------------------------------------------
+# Narrow the recompiled-BIOS stems to the retail image this recipe ships a
+# profile for (psxrecomp/bios/SCPH1001.toml). Two reasons OpenBIOS cannot be a
+# stem here:
+#   1. runtime.cmake FATAL_ERRORs with "Bundled OpenBIOS image is missing"
+#      whenever "OpenBIOS" is in PSXRECOMP_BIOS_STEMS, so keeping the default
+#      forces psxrecomp/bios/openbios.bin into every build.
+#   2. The release policy requires the OpenBIOS payload to be absent
+#      (.release/policy.json "openbios_required": false, game.toml [runtime]
+#      openbios = false), and scripts/package_setup_release.sh removes it.
+# The setup host links no BIOS at all; the player's first-run Generate emits
+# SCPH1001 from their own dump. Must be set BEFORE include(runtime.cmake),
+# which declares this as a CACHE STRING.
+set(PSXRECOMP_BIOS_STEMS "SCPH1001" CACHE STRING
+    "Recompiled BIOS stems to link; retail-only kit ships no OpenBIOS payload")
+
 include("${PSXRECOMP_ROOT}/runtime/runtime.cmake")
 
 # This project's own mod catalog. The FRAMEWORK stages it -- together with its

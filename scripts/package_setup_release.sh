@@ -85,6 +85,7 @@ exec bash "${PACKAGER}" \
   --artifact "${ARTIFACT_TAG}" \
   --zip-prefix azuredreams \
   --exe-name Azure_Dreams \
+  --omit-openbios \
   --display-name "Azure Dreams" \
   --recompiler-build "${RECOMPILER_BUILD}" \
   --version-env RELEASE_VERSION \

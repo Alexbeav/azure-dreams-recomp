@@ -37,6 +37,7 @@ strict = true
 [runtime]
 window_title = "Azure Dreams Recompiled"
 memcard_dir = "saves"
+openbios = false
 overlay_cache = true
 
 [video]
