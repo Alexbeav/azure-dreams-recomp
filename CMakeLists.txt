@@ -23,8 +23,11 @@ set(PSX_RECOMP_UI ON CACHE BOOL
 # if(EXISTS "${PSXRECOMP_ROOT}/lib/recomp-net/CMakeLists.txt")
 #     set(PSX_NETPLAY ON CACHE BOOL "..." FORCE)
 # endif()
-# First-run setup wizard -- enable after testing:
-# set(PSX_SETUP_WIZARD ON CACHE BOOL "..." FORCE)
+# First-run setup wizard + Generate & rebuild: the owned-input kit IS this
+# wizard. Without it the setup exe links no codegen host at all and a player
+# can never generate the game (the c2 pilot ZIP shipped exactly that).
+set(PSX_SETUP_WIZARD ON CACHE BOOL
+    "Advertise first-run setup wizard + Generate & rebuild in recomp-ui" FORCE)
 
 # --- Retail-BIOS-only BIOS stems -------------------------------------------
 # Narrow the recompiled-BIOS stems to the retail image this recipe ships a
@@ -58,15 +61,14 @@ psxrecomp_add_game_runtime(psx-runtime
     PRELOADED_MODS_DIR "${PSX_PRELOADED_MODS}"
     # ENABLE_NETPLAY_IF_PRESENT
     # NETPLAY_LOBBY_URL "ws://netplay.retcomm.net:8765"
-    # ENABLE_SETUP_WIZARD
+    ENABLE_SETUP_WIZARD
     WINDOW_TITLE "Azure Dreams"
     DEFAULT_GAME_CONFIG_PATH "game.toml"
     MAX_PLAYERS 2
-    # LAUNCHER_BOXART "${CMAKE_CURRENT_SOURCE_DIR}/launcher_assets/img/boxart.tga"
     APP_ICON "${CMAKE_CURRENT_SOURCE_DIR}/assets/psxrecomp.ico"
     GEN_MARKER "generated/SLUS_006.14_dispatch.c"
     GEN_FULL_GLOB "generated/SLUS_006.14_full_*.c"
-    # CODEGEN_SETUP_SOURCES -- add with recomp-ui / wizard later
+    CODEGEN_SETUP_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/codegen_setup.c"
 )
 
 # Stage runtime configs next to the exe for direct build/ launches. Only copy
