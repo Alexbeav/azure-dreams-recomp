@@ -12,11 +12,13 @@ endif()
 project(Azure_Dreams LANGUAGES C CXX)
 
 # --- Opt-in product surfaces (OFF by default in the framework) -------------
-# Scaffold prompts / flags fill these. Without recomp-ui, PSX_RECOMP_UI is OFF.
+# Scaffold prompts / flags fill these. recomp-ui IS present in this repo, so the
+# launcher is ON and its assets/common/{fonts,img} stage into the build tree,
+# which package_setup_host.sh requires.
 # Setup-host CI requires WIZARD_CMAKE_BLOCK / ENABLE_SETUP_WIZARD (FORCE_SETUP_HOST
 # alone does not open first-run / Generate & rebuild).
-set(PSX_RECOMP_UI OFF CACHE BOOL
-    "No recomp-ui submodule in this scaffold" FORCE)
+set(PSX_RECOMP_UI ON CACHE BOOL
+    "Shared recomp-ui launcher; recomp-ui submodule is present" FORCE)
 # Full netplay UI -- enable after adding recomp-ui + testing:
 # if(EXISTS "${PSXRECOMP_ROOT}/lib/recomp-net/CMakeLists.txt")
 #     set(PSX_NETPLAY ON CACHE BOOL "..." FORCE)
